@@ -10,7 +10,7 @@ SRC_URI = "\
     file://telux/public"
 
 S = "${WORKDIR}/telux/public/samples"
-SYSTEMD_SERVICE_${PN} = "chrony-sock.service"
+SYSTEMD_SERVICE_${PN} = "${@bb.utils.contains('MACHINE_FEATURES', 'pps', 'chrony-sock.service', '', d)}"
 
 inherit pkgconfig cmake systemd
 
