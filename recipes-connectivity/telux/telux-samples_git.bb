@@ -34,3 +34,5 @@ do_install_append() {
 
 FILESPATH =+ "${WORKSPACE}:"
 FILES_${PN} += "${systemd_unitdir}"
+FILES_SOLIBSDEV = ""
+FILES_${PN} += "${libdir}/*.so"
