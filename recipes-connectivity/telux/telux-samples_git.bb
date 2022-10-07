@@ -7,7 +7,9 @@ DEPENDS += "telux telux-lib systemd curl"
 
 SRC_URI = "\
     git://github.com/vlm/asn1c;name=asn1c;protocol=https;nobranch=1;tag=94f0b645d401f75b5b1aa8e5440dc2df0f916517;destsuffix=telux/public/asn1c\
-    file://telux/public"
+    file://telux/public \
+    file://telux_power_refd.service \
+    "
 
 S = "${WORKDIR}/telux/public/samples"
 SYSTEMD_SERVICE_${PN} = "${@bb.utils.contains('MACHINE_FEATURES', 'pps', 'chrony-sock.service', '', d)}"
@@ -27,6 +29,7 @@ EXTRA_OECMAKE = " \
 
 do_install_append() {
     install -m 0644 ${WORKDIR}/telux/public/apps/tests/telsdk_console_app/config_files/telsdk_app.conf -D ${D}${sysconfdir}/telsdk_app.conf
+    install -m 0644 ${WORKDIR}/telux_power_refd.service -D ${D}${systemd_unitdir}/system/telux_power_refd.service
 }
 
 FILESPATH =+ "${WORKSPACE}:"
