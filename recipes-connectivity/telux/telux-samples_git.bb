@@ -25,6 +25,7 @@ EXTRA_OECMAKE = " \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-external-ap', '-DWITH_AEROLINK=ON', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-cv2x', '-DMACHINE_HAS_CV2X_ONLY=ON', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-wwan-plus-cv2x', '-DMACHINE_HAS_CV2X=ON', '', d)} \
+    ${@bb.utils.contains_any('MACHINE_FEATURES', ['qti-location','pps'], '-DWITH_LOCATION=ON', '', d)} \
 "
 
 do_install_append() {
