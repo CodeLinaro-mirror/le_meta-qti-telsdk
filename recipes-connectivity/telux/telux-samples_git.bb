@@ -3,7 +3,7 @@ DESCRIPTION = "Telematics SDK Samples"
 LICENSE = "BSD-3-Clause & BSD-2-Clause"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9 \
    file://${WORKDIR}/telux/public/asn1c/LICENSE;md5=ee8bfaaa7d71cf3edb079475e6716d4b"
-DEPENDS += "telux telux-lib systemd curl"
+DEPENDS += "telux telux-lib systemd curl canwrapper"
 
 SRC_URI = "\
     git://github.com/vlm/asn1c;name=asn1c;protocol=https;nobranch=1;tag=94f0b645d401f75b5b1aa8e5440dc2df0f916517;destsuffix=telux/public/asn1c\
@@ -25,6 +25,7 @@ EXTRA_OECMAKE = " \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-external-ap', '-DWITH_AEROLINK=ON', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-cv2x', '-DMACHINE_HAS_CV2X_ONLY=ON', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-wwan-plus-cv2x', '-DMACHINE_HAS_CV2X=ON', '', d)} \
+    ${@bb.utils.contains_any('MACHINE_FEATURES', ['qti-location','pps'], '-DWITH_LOCATION=ON', '', d)} \
 "
 
 do_install_append() {
@@ -34,3 +35,5 @@ do_install_append() {
 
 FILESPATH =+ "${WORKSPACE}:"
 FILES_${PN} += "${systemd_unitdir}"
+FILES_SOLIBSDEV = ""
+FILES_${PN} += "${libdir}/*.so"
