@@ -12,7 +12,7 @@ inherit pkgconfig cmake python3native systemd
 
 EXTRA_OECMAKE = " \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-external-ap', '-DRIL_FOR_EXTERNAL_AP=ON', '', d)} \
-    ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm', '-DTELSDK_FEATURE_FOR_SECONDARY_VM=ON', '', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-guest', '-DTELSDK_FEATURE_FOR_SECONDARY_VM=ON', '', d)} \
 "
 
 FILESPATH =+ "${WORKSPACE}:"
