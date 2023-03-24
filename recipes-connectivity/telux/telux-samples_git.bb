@@ -13,6 +13,7 @@ SRC_URI = "\
 
 S = "${WORKDIR}/telux/public/samples"
 SYSTEMD_SERVICE_${PN} = "${@bb.utils.contains_any('MACHINE_FEATURES', ['pps', 'qti-location'], 'chrony-sock.service', '', d)}"
+SYSTEMD_SERVICE_${PN}_remove += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-fota', 'chrony-sock.service', '', d)}"
 
 inherit pkgconfig cmake systemd
 
@@ -20,7 +21,7 @@ EXTRA_OECMAKE = " \
     -DASN1C_PATH=${WORKDIR}/telux/public/asn1c \
     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '-DWITH_SYSTEMD:BOOL=ON', '', d)} \
     -DAUDIO_ENABLED=ON \
-    ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm', '-DTELSDK_FEATURE_FOR_SECONDARY_VM=ON', '', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-guest', '-DTELSDK_FEATURE_FOR_SECONDARY_VM=ON', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'external-ap', '-DTELUX_FOR_EXTERNAL_AP=ON', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-external-ap', '-DTELUX_QTI_EXTERNAL_AP=ON', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-external-ap', '-DWITH_AEROLINK=ON', '', d)} \
@@ -32,7 +33,7 @@ EXTRA_OECMAKE = " \
 do_install_append() {
     install -m 0644 ${WORKDIR}/telux/public/apps/tests/telsdk_console_app/config_files/telsdk_app.conf -D ${D}${sysconfdir}/telsdk_app.conf
     if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-        if ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm', 'false', 'true', d)}; then
+        if ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-guest', 'false', 'true', d)}; then
             install -m 0644 ${WORKDIR}/telux_power_refd.service -D ${D}${systemd_unitdir}/system/telux_power_refd.service
         fi
     fi
