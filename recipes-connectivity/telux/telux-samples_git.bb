@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec
 DEPENDS += "telux telux-lib systemd curl canwrapper"
 DEPENDS += " ${@bb.utils.contains_any('MACHINE_FEATURES', [ 'qti-cv2x', 'qti-wwan-plus-cv2x' ], 'aerolink aerolink-headers', '', d)} "
 
+DEPENDS += "${@bb.utils.contains_any('MACHINE_FEATURES', 'qti-wwan-plus-cv2x qti-cv2x', 'v2x-lib', '', d)}"
+
 SRC_URI = "\
     git://github.com/vlm/asn1c;name=asn1c;protocol=https;nobranch=1;tag=94f0b645d401f75b5b1aa8e5440dc2df0f916517;destsuffix=telux/public/asn1c\
     file://telux/public \
