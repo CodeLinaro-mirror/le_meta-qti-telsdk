@@ -20,3 +20,5 @@ SYSTEMD_SERVICE_${PN} = "chrony-sock.service"
 SRCREV = "${AUTOREV}"
 
 DEPENDS += "telux telux-lib systemd"
+FILES_SOLIBSDEV = ""
+FILES_${PN} += "${libdir}/*.so"
