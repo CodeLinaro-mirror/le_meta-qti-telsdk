@@ -31,6 +31,7 @@ EXTRA_OECMAKE = " \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-wwan-plus-cv2x', '-DMACHINE_HAS_CV2X=ON', '', d)} \
     ${@bb.utils.contains_any('MACHINE_FEATURES', [ 'qti-cv2x', 'qti-wwan-plus-cv2x' ], '-DWITH_AEROLINK=ON', '', d)} \
     ${@bb.utils.contains_any('MACHINE_FEATURES', ['qti-location','pps'], '-DWITH_LOCATION=ON', '', d)} \
+    ${@bb.utils.contains_any('MACHINE_FEATURES', ['qti-vm-host','qti-vm-guest'], '', '-DTELSDK_FEATURE_FOR_PVM_ONLY=ON', d)} \
 "
 
 do_install_append() {
