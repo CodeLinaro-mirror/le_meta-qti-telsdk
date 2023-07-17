@@ -18,7 +18,11 @@ S = "${WORKDIR}/telux/public/samples"
 SYSTEMD_SERVICE_${PN} = "${@bb.utils.contains_any('MACHINE_FEATURES', ['pps', 'qti-location'], 'chrony-sock.service', '', d)}"
 SYSTEMD_SERVICE_${PN}_remove += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-fota', 'chrony-sock.service', '', d)}"
 
-inherit pkgconfig cmake systemd
+inherit pkgconfig cmake systemd useradd
+
+ITSUSER ?= "its"
+USERADD_PARAM_${PN} = "${@bb.utils.contains_any('MACHINE_FEATURES', [ 'qti-cv2x', 'qti-wwan-plus-cv2x' ], " \
+                       --system -G system,radio,diag,locclient -M ${ITSUSER}", "", d)}"
 
 EXTRA_OECMAKE = " \
     -DASN1C_PATH=${WORKDIR}/telux/public/asn1c \
