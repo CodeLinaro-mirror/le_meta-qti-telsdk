@@ -16,9 +16,13 @@ SRC_URI = "\
 
 S = "${WORKDIR}/telux/public/samples"
 SYSTEMD_SERVICE_${PN} = "${@bb.utils.contains_any('MACHINE_FEATURES', ['pps', 'qti-location'], 'chrony-sock.service', '', d)}"
-SYSTEMD_SERVICE_${PN}_remove += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-fota', 'chrony-sock.service', '', d)}"
+SYSTEMD_SERVICE_${PN}_remove += "${@bb.utils.contains_any('MACHINE_FEATURES', 'qti-vm-fota qti-eap', 'chrony-sock.service', '', d)}"
 
-inherit pkgconfig cmake systemd
+inherit pkgconfig cmake systemd useradd
+
+ITSUSER ?= "its"
+USERADD_PARAM_${PN} = "${@bb.utils.contains_any('MACHINE_FEATURES', [ 'qti-cv2x', 'qti-wwan-plus-cv2x' ], " \
+                       --system -G system,radio,diag,locclient -M ${ITSUSER}", "", d)}"
 
 EXTRA_OECMAKE = " \
     -DASN1C_PATH=${WORKDIR}/telux/public/asn1c \
@@ -26,6 +30,7 @@ EXTRA_OECMAKE = " \
     -DAUDIO_ENABLED=ON \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-guest', '-DTELSDK_FEATURE_FOR_SECONDARY_VM=ON', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'external-ap', '-DTELUX_FOR_EXTERNAL_AP=ON', '', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'qti-eap', '-DTELUX_FOR_EXTERNAL_AP=ON', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-external-ap', '-DTELUX_QTI_EXTERNAL_AP=ON', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-cv2x', '-DMACHINE_HAS_CV2X_ONLY=ON', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-wwan-plus-cv2x', '-DMACHINE_HAS_CV2X=ON', '', d)} \
@@ -37,7 +42,7 @@ EXTRA_OECMAKE = " \
 do_install_append() {
     install -m 0644 ${WORKDIR}/telux/public/apps/tests/telsdk_console_app/config_files/telsdk_app.conf -D ${D}${sysconfdir}/telsdk_app.conf
     if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-        if ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-guest', 'false', 'true', d)}; then
+        if ${@bb.utils.contains_any('MACHINE_FEATURES', 'qti-vm-guest qti-eap', 'false', 'true', d)}; then
             install -m 0644 ${WORKDIR}/telux_power_refd.service -D ${D}${systemd_unitdir}/system/telux_power_refd.service
         fi
     fi
