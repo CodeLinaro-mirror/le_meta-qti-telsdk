@@ -3,7 +3,7 @@ DESCRIPTION = "Telematics SDK Samples"
 LICENSE = "BSD-3-Clause & BSD-2-Clause"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9 \
    file://${WORKDIR}/telux/public/asn1c/LICENSE;md5=ee8bfaaa7d71cf3edb079475e6716d4b"
-DEPENDS += "telux telux-lib telux-prop-noship systemd curl canwrapper json-c"
+DEPENDS += "telux telux-lib telux-prop-noship systemd curl canwrapper json-c mvm-dlkm"
 DEPENDS += " ${@bb.utils.contains_any('MACHINE_FEATURES', [ 'qti-cv2x', 'qti-wwan-plus-cv2x' ], 'aerolink aerolink-headers', '', d)} "
 
 DEPENDS += "${@bb.utils.contains_any('MACHINE_FEATURES', 'qti-wwan-plus-cv2x qti-cv2x', 'v2x-lib', '', d)}"
@@ -22,7 +22,7 @@ inherit pkgconfig cmake systemd useradd
 
 ITSUSER ?= "its"
 USERADD_PARAM_${PN} = "${@bb.utils.contains_any('MACHINE_FEATURES', [ 'qti-cv2x', 'qti-wwan-plus-cv2x' ], " \
-                       --system -M ${ITSUSER}", "", d)}"
+                       --system -G system,radio,diag,locclient,mvm,qwes -M ${ITSUSER}", "", d)}"
 
 EXTRA_OECMAKE = " \
     -DASN1C_PATH=${WORKDIR}/telux/public/asn1c \
