@@ -11,4 +11,4 @@ inherit pkgconfig cmake
 
 FILESPATH =+ "${WORKSPACE}:"
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/*.so"
+FILES:${PN} += "${libdir}/*.so"

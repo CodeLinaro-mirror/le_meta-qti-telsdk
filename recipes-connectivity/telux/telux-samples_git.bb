@@ -15,13 +15,13 @@ SRC_URI = "\
     "
 
 S = "${WORKDIR}/telux/public/samples"
-SYSTEMD_SERVICE_${PN} = "${@bb.utils.contains_any('MACHINE_FEATURES', ['pps', 'qti-location'], 'chrony-sock.service', '', d)}"
-SYSTEMD_SERVICE_${PN}_remove += "${@bb.utils.contains_any('MACHINE_FEATURES', 'qti-vm-guest qti-eap', 'chrony-sock.service', '', d)}"
+SYSTEMD_SERVICE:${PN} = "${@bb.utils.contains_any('MACHINE_FEATURES', ['pps', 'qti-location'], 'chrony-sock.service', '', d)}"
+SYSTEMD_SERVICE:${PN}:remove += "${@bb.utils.contains_any('MACHINE_FEATURES', 'qti-vm-guest qti-eap', 'chrony-sock.service', '', d)}"
 
 inherit pkgconfig cmake systemd useradd
 
 ITSUSER ?= "its"
-USERADD_PARAM_${PN} = "${@bb.utils.contains_any('MACHINE_FEATURES', [ 'qti-cv2x', 'qti-wwan-plus-cv2x' ], " \
+USERADD_PARAM:${PN} = "${@bb.utils.contains_any('MACHINE_FEATURES', [ 'qti-cv2x', 'qti-wwan-plus-cv2x' ], " \
                        --system -G system,radio,diag,locclient,mvm,qwes -M ${ITSUSER}", "", d)}"
 
 EXTRA_OECMAKE = " \
@@ -39,7 +39,7 @@ EXTRA_OECMAKE = " \
     ${@bb.utils.contains_any('MACHINE_FEATURES', ['qti-vm-host','qti-vm-guest'], '', '-DTELSDK_FEATURE_FOR_PVM_ONLY=ON', d)} \
 "
 
-do_install_append() {
+do_install:append() {
     install -m 0644 ${WORKDIR}/telux/public/apps/tests/telsdk_console_app/config_files/telsdk_app.conf -D ${D}${sysconfdir}/telsdk_app.conf
     if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
         if ${@bb.utils.contains_any('MACHINE_FEATURES', 'qti-vm-guest qti-eap', 'false', 'true', d)}; then
@@ -54,6 +54,6 @@ do_install_append() {
 }
 
 FILESPATH =+ "${WORKSPACE}:"
-FILES_${PN} += "${systemd_unitdir}"
+FILES:${PN} += "${systemd_unitdir}"
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/*.so"
+FILES:${PN} += "${libdir}/*.so"
