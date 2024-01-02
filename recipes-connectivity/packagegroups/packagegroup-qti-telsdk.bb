@@ -10,6 +10,6 @@ PACKAGES = ' \
     '
 
 # telsdk packages which are common across various machines
-RDEPENDS_${PN} += ' \
+RDEPENDS:${PN} += ' \
     telux-samples \
     '
