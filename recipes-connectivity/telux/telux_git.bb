@@ -12,9 +12,9 @@ inherit pkgconfig cmake
 
 PACKAGES = "${PN}"
 
-RDEPENDS_${PN} += "glib-2.0"
+RDEPENDS:${PN} += "glib-2.0"
 
 FILESPATH =+ "${WORKSPACE}:"
-FILES_${PN} += "/usr/include/*"
+FILES:${PN} += "/usr/include/*"
 
-ALLOW_EMPTY_${PN} = "1"
+ALLOW_EMPTY:${PN} = "1"
