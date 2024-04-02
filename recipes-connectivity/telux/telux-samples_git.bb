@@ -22,7 +22,7 @@ inherit pkgconfig cmake systemd useradd
 
 ITSUSER ?= "its"
 USERADD_PARAM:${PN} = "${@bb.utils.contains_any('MACHINE_FEATURES', [ 'qti-cv2x', 'qti-wwan-plus-cv2x' ], " \
-                       --system -G system,radio,diag,locclient,mvm,qwes -M ${ITSUSER}", "", d)}"
+                       -G system,radio,diag,locclient,mvm,qwes -u 4024 -U ${ITSUSER}", "", d)}"
 
 EXTRA_OECMAKE = " \
     -DASN1C_PATH=${WORKDIR}/telux/public/asn1c \
