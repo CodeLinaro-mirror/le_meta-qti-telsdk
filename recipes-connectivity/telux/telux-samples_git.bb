@@ -5,6 +5,8 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec
    file://${WORKDIR}/telux/public/asn1c/LICENSE;md5=ee8bfaaa7d71cf3edb079475e6716d4b"
 DEPENDS += "telux telux-lib telux-prop-noship systemd curl canwrapper json-c mvm-dlkm"
 DEPENDS += " ${@bb.utils.contains_any('MACHINE_FEATURES', [ 'qti-cv2x', 'qti-wwan-plus-cv2x' ], 'aerolink aerolink-headers v2x-lib', '', d)} "
+DEPENDS += " ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-guest', '', 'dlt-daemon', d)} "
+
 
 SRC_URI = "\
     git://github.com/vlm/asn1c;name=asn1c;protocol=https;nobranch=1;tag=94f0b645d401f75b5b1aa8e5440dc2df0f916517;destsuffix=telux/public/asn1c\
@@ -19,8 +21,11 @@ SYSTEMD_SERVICE:${PN}:remove += "${@bb.utils.contains_any('MACHINE_FEATURES', 'q
 inherit pkgconfig cmake systemd useradd
 
 ITSUSER ?= "its"
+ITS_GROUP = "system,radio,diag,locclient,mvm,qwes"
+ITS_ADD_GROUP = "${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-guest', '', ',dlt', d)}"
+ITS_GROUP:append = "${ITS_ADD_GROUP}"
 USERADD_PARAM:${PN} = "${@bb.utils.contains_any('MACHINE_FEATURES', [ 'qti-cv2x', 'qti-wwan-plus-cv2x' ], " \
-                       -G system,radio,diag,locclient,mvm,qwes -u 4024 -U ${ITSUSER}", "", d)}"
+                       -G ${ITS_GROUP} -u 4024 -U ${ITSUSER}", "", d)}"
 
 EXTRA_OECMAKE = " \
     -DASN1C_PATH=${WORKDIR}/telux/public/asn1c \
