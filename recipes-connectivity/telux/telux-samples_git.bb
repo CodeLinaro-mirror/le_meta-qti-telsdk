@@ -21,7 +21,7 @@ SYSTEMD_SERVICE:${PN}:remove += "${@bb.utils.contains_any('MACHINE_FEATURES', 'q
 inherit pkgconfig cmake systemd useradd
 
 ITSUSER ?= "its"
-ITS_GROUP = "system,radio,diag,locclient,mvm,qwes"
+ITS_GROUP = "system,radio,diag,locclient,mvm,gpio,spi,qwes"
 ITS_ADD_GROUP = "${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-guest', '', ',dlt', d)}"
 ITS_GROUP:append = "${ITS_ADD_GROUP}"
 USERADD_PARAM:${PN} = "${@bb.utils.contains_any('MACHINE_FEATURES', [ 'qti-cv2x', 'qti-wwan-plus-cv2x' ], " \
