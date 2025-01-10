@@ -20,9 +20,10 @@ define Package/telux-public/Description
 endef
 
 define Build/Prepare
+	mkdir -p $(STAGING_DIR)/usr/include/telux/
 	$(INSTALL_DIR) $(PKG_BUILD_DIR)/public
-	$(CP) $(TELUX_PUBLIC)/* $(PKG_BUILD_DIR)/public
-	$(CP) $(TELUX_PUBLIC)/include/telux/common/*.hpp $(STAGING_DIR)/usr/include/telux
+	$(CP) -f $(TELUX_PUBLIC)/* $(PKG_BUILD_DIR)/public
+	$(CP) -f $(TELUX_PUBLIC)/include/telux/ $(STAGING_DIR)/usr/include/
 endef
 
 define Build/Configure
@@ -39,8 +40,8 @@ endef
 
 define Package/telux-public/install
 	$(INSTALL_DIR) $(PKG_BUILD_DIR)/public
-	$(CP) $(TELUX_PUBLIC)/* $(PKG_BUILD_DIR)/public
-	$(CP) $(TELUX_PUBLIC)/include/telux/common/*.hpp $(STAGING_DIR)/usr/include/telux
+	$(CP) -f $(TELUX_PUBLIC)/* $(PKG_BUILD_DIR)/public
+	$(CP) -f $(TELUX_PUBLIC)/include/telux/ $(STAGING_DIR)/usr/include/
 endef
 
 $(eval $(call BuildPackage,$(PKG_NAME)))
