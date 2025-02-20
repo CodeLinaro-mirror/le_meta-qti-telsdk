@@ -8,5 +8,5 @@ ifeq ($(BOARD),sdx35)
 else ifeq ($(BOARD),sdx65)
 	QTIDATAPROP+=
 else ifeq ($(BOARD),sdx85)
-    QTITELSDK+= telux-public telsdk_console_app
+    QTITELSDK+= telux-public telsdk_console_app telux-DataApp
 endif

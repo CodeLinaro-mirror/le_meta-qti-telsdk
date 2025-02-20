@@ -19,6 +19,10 @@ define Package/telux-public/Description
     TELUX-PUBLIC
 endef
 
+define Build/Clean
+	rm -rf $(PKG_BUILD_DIR) $(STAGING_DIR)/usr/include/telux
+endef
+
 define Build/Prepare
 	mkdir -p $(STAGING_DIR)/usr/include/telux/
 	$(INSTALL_DIR) $(PKG_BUILD_DIR)/public

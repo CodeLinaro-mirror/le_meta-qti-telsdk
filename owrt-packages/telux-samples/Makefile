@@ -20,8 +20,19 @@ define Package/telsdk_console_app
 	DEPENDS:=+libtelux_common +libtelux_data +libtelux_qmi +libexecinfo +telux-public
 endef
 
+define Package/telux-DataApp
+	SECTION:=telux-DataApp
+	CATEGORY:=QTI-PACKAGES
+	TITLE:=telux-DataApp
+	DEPENDS:=+dsutils +libqmi-client-helper +qmi +qmi-framework +libtelux_common +libtelux_data  +libtelux_qmi +telux-public +libexecinfo
+endef
+
 define Package/telsdk_console_app/Description
 	TELSDK_CONSOLE_APP
+endef
+
+define Package/telux-DataApp/Description
+	TELUX-DataApp
 endef
 
 CMAKE_OPTIONS+= \
@@ -49,4 +60,10 @@ define Package/telsdk_console_app/install
 	$(CP) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/telsdk_console_app $(1)/usr/bin/
 endef
 
+define Package/telux-DataApp/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/samples/data/data_app/data_app $(1)/usr/bin
+endef
+
 $(eval $(call BuildPackage,telsdk_console_app))
+$(eval $(call BuildPackage,telux-DataApp))
