@@ -38,6 +38,7 @@ endef
 CMAKE_OPTIONS+= \
 	-DTELSDK_TEST_DATA:bool=TRUE \
 	-DTELSDK_FEATURE_DATA:bool=TRUE \
+        -DBUILD_ALL_SAMPLES:bool=TRUE \
 
 TARGET_CFLAGS += -Og \
 	-D__NEED_ino_t \
