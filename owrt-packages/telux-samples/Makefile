@@ -17,7 +17,7 @@ define Package/telsdk_console_app
 	SECTION:=telux
 	CATEGORY:=QTI-PACKAGES
 	TITLE:=telsdk_console_app
-	DEPENDS:=+libtelux_common +libtelux_data +libtelux_qmi +libexecinfo +telux-public
+	DEPENDS:=+libtelux_data +libexecinfo +telux-public
 endef
 
 define Package/telux-DataApp
@@ -46,9 +46,6 @@ TARGET_CFLAGS += -Og \
 
 TARGET_LDFLAGS += \
 	-L$(STAGING_DIR)/usr/lib \
-	-ltelux_common \
-	-ltelux_data \
-	-ltelux_qmi \
 	-lexecinfo
 
 define Build/Prepare
