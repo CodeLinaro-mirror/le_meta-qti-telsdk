@@ -1,7 +1,14 @@
 SUMMARY = "Telephony service for QTI's Modem"
 DESCRIPTION = "Telephony service for QTI's Modem"
-LICENSE = "BSD-3-Clause"
-LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=550794465ba0ec5312d6919e203a55f9"
+
+LICENSE = "Apache-2.0 & BSD-3-Clause-Clear"
+
+LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/\
+Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
+
+LIC_FILES_CHKSUM += "file://${COREBASE}/meta-qti-bsp/files/common-licenses/\
+BSD-3-Clause-Clear;md5=3771d4920bd6cdb8cbdf1e8344489ee0"
+
 DEPENDS += "glib-2.0 nanopb protobuf-native python3-protobuf-native python3-six-native qmi-framework"
 
 SRC_URI = "file://telux/services/ril"
