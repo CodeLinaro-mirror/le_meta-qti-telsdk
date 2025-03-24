@@ -17,7 +17,7 @@ define Package/telsdk_console_app
 	SECTION:=telux
 	CATEGORY:=QTI-PACKAGES
 	TITLE:=telsdk_console_app
-	DEPENDS:=+libtelux_common +libtelux_data +libtelux_qmi +libexecinfo +telux-public
+	DEPENDS:=+libtelux_data +libexecinfo +telux-public
 endef
 
 define Package/telux-DataApp
@@ -25,6 +25,14 @@ define Package/telux-DataApp
 	CATEGORY:=QTI-PACKAGES
 	TITLE:=telux-DataApp
 	DEPENDS:=+dsutils +libqmi-client-helper +qmi +qmi-framework +libtelux_common +libtelux_data  +libtelux_qmi +telux-public +libexecinfo
+endef
+
+define Package/telux-LocationTestApp
+	SECTION:=telux
+	CATEGORY:=QTI-PACKAGES
+	TITLE:=telux-LocationTestApp
+	MAINTAINER:= Vthuniki
+	DEPENDS:=+libtelux_loc
 endef
 
 define Package/telsdk_console_app/Description
@@ -35,9 +43,15 @@ define Package/telux-DataApp/Description
 	TELUX-DataApp
 endef
 
+define Package/telux-LocationTestApp/Description
+	telux-LocationTestApp
+endef
+
 CMAKE_OPTIONS+= \
 	-DTELSDK_TEST_DATA:bool=TRUE \
 	-DTELSDK_FEATURE_DATA:bool=TRUE \
+        -DBUILD_ALL_SAMPLES:bool=TRUE \
+	-DTELSDK_TEST_LOC:bool=TRUE \
 
 TARGET_CFLAGS += -Og \
 	-D__NEED_ino_t \
@@ -45,9 +59,6 @@ TARGET_CFLAGS += -Og \
 
 TARGET_LDFLAGS += \
 	-L$(STAGING_DIR)/usr/lib \
-	-ltelux_common \
-	-ltelux_data \
-	-ltelux_qmi \
 	-lexecinfo
 
 define Build/Prepare
@@ -65,5 +76,11 @@ define Package/telux-DataApp/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/samples/data/data_app/data_app $(1)/usr/bin
 endef
 
+define Package/telux-LocationTestApp/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(CP) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/location_test_app $(1)/usr/bin/
+endef
+
 $(eval $(call BuildPackage,telsdk_console_app))
 $(eval $(call BuildPackage,telux-DataApp))
+$(eval $(call BuildPackage,telux-LocationTestApp))
