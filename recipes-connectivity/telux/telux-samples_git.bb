@@ -15,7 +15,7 @@ SRC_URI = "\
     "
 
 S = "${WORKDIR}/telux/public/samples"
-#SYSTEMD_SERVICE:${PN} = "${@bb.utils.contains_any('MACHINE_FEATURES', ['pps', 'qti-location'], 'chrony-sock.service', '', d)}"
+SYSTEMD_SERVICE:${PN} = "${@bb.utils.contains_any('MACHINE_FEATURES', ['pps', 'qti-location'], 'chrony-sock.service', '', d)}"
 SYSTEMD_SERVICE:${PN}:remove += "${@bb.utils.contains_any('MACHINE_FEATURES', 'qti-vm-guest qti-eap', 'chrony-sock.service', '', d)}"
 
 inherit pkgconfig cmake systemd useradd
@@ -49,11 +49,11 @@ do_install:append() {
             install -m 0644 ${WORKDIR}/telux_power_refd.service -D ${D}${systemd_unitdir}/system/telux_power_refd.service
         fi
     fi
-#   if ${@bb.utils.contains_any('MACHINE_FEATURES', 'pps qti-location', 'true', 'false', d)}; then
-#       if ${@bb.utils.contains_any('MACHINE_FEATURES', 'qti-vm-guest qti-eap', 'false', 'true', d)}; then
-#           install -m 0644 ${WORKDIR}/telux/public/apps/reference/chrony-sock/config_files/telux_chrony-sock.conf -D ${D}${sysconfdir}/telux_chrony-sock.conf
-#       fi
-#   fi
+    if ${@bb.utils.contains_any('MACHINE_FEATURES', 'pps qti-location', 'true', 'false', d)}; then
+        if ${@bb.utils.contains_any('MACHINE_FEATURES', 'qti-vm-guest qti-eap', 'false', 'true', d)}; then
+            install -m 0644 ${WORKDIR}/telux/public/apps/reference/chrony-sock/config_files/telux_chrony-sock.conf -D ${D}${sysconfdir}/telux_chrony-sock.conf
+        fi
+    fi
 }
 
 FILESPATH =+ "${WORKSPACE}:"
