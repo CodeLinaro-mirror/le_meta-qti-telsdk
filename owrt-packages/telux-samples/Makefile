@@ -27,6 +27,13 @@ define Package/telux-DataApp
 	DEPENDS:=+libtelux_data +libexecinfo
 endef
 
+define Package/wlan_test_app
+	SECTION:=telux
+	CATEGORY:=QTI-PACKAGES
+	TITLE:=wlan_test_app
+	DEPENDS:=+libtelux_common +libtelux_wlan +libtelux_qmi +libexecinfo +telux-public
+endef
+
 define Package/telux-LocationTestApp
 	SECTION:=telux
 	CATEGORY:=QTI-PACKAGES
@@ -90,16 +97,20 @@ define Package/telux-DataApp/Description
 	TELUX-DataApp
 endef
 
+define Package/wlan_test_app/Description
+	WLAN_TEST_APP
+endef
+
 define Package/telux-LocationTestApp/Description
 	telux-LocationTestApp
 endef
 
 define Package/telux-SwUpdateConsoleApp/Description
-        TELUX-SwUpdateConsoleApp
+	TELUX-SwUpdateConsoleApp
 endef
 
 define Package/telux-SwUpdateApp/Description
-        TELUX-SwUpdateApp
+	TELUX-SwUpdateApp
 endef
 
 define Package/telux-cellular_connection_security_app/Description
@@ -117,8 +128,9 @@ endef
 CMAKE_OPTIONS+= \
 	-DTELSDK_TEST_DATA:bool=TRUE \
 	-DTELSDK_FEATURE_DATA:bool=TRUE \
-        -DBUILD_ALL_SAMPLES:bool=TRUE \
+	-DBUILD_ALL_SAMPLES:bool=TRUE \
 	-DTELSDK_TEST_LOC:bool=TRUE \
+	-DTELSDK_FEATURE_WIFI:bool=TRUE \
 	-DTELSDK_FEATURE_SWUPDATE:bool=TRUE
 
 TARGET_CFLAGS += -Og \
@@ -142,6 +154,11 @@ endef
 define Package/telux-DataApp/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/samples/data/data_app/data_app $(1)/usr/bin
+endef
+
+define Package/wlan_test_app/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(CP) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/wlan_test_app $(1)/usr/bin
 endef
 
 define Package/telux-LocationTestApp/install
@@ -183,6 +200,7 @@ endef
 
 $(eval $(call BuildPackage,telsdk_console_app))
 $(eval $(call BuildPackage,telux-DataApp))
+$(eval $(call BuildPackage,wlan_test_app))
 $(eval $(call BuildPackage,telux-LocationTestApp))
 $(eval $(call BuildPackage,telux-SwUpdateConsoleApp))
 $(eval $(call BuildPackage,telux-SwUpdateApp))
