@@ -3,7 +3,7 @@ DESCRIPTION = "Telematics SDK Samples"
 LICENSE = "BSD-3-Clause & BSD-2-Clause"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec5312d6919e203a55f9 \
    file://${WORKDIR}/telux/public/asn1c/LICENSE;md5=ee8bfaaa7d71cf3edb079475e6716d4b"
-DEPENDS += "telux telux-lib telux-prop-noship systemd curl canwrapper json-c mvm-dlkm"
+DEPENDS += "telux telux-lib systemd"
 DEPENDS += " ${@bb.utils.contains_any('MACHINE_FEATURES', [ 'qti-cv2x', 'qti-wwan-plus-cv2x' ], 'aerolink aerolink-headers v2x-lib', '', d)} "
 DEPENDS += " ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-guest', '', 'dlt-daemon', d)} "
 
@@ -17,6 +17,7 @@ SRC_URI = "\
 S = "${WORKDIR}/telux/public/samples"
 SYSTEMD_SERVICE:${PN} = "${@bb.utils.contains_any('MACHINE_FEATURES', ['pps', 'qti-location'], 'chrony-sock.service', '', d)}"
 SYSTEMD_SERVICE:${PN}:remove += "${@bb.utils.contains_any('MACHINE_FEATURES', 'qti-vm-guest qti-eap', 'chrony-sock.service', '', d)}"
+SYSTEMD_SERVICE:${PN}:remove += "chrony-sock.service"
 
 inherit pkgconfig cmake systemd useradd
 
