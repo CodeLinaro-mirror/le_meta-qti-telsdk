@@ -24,7 +24,7 @@ define Package/telux-DataApp
 	SECTION:=telux-DataApp
 	CATEGORY:=QTI-PACKAGES
 	TITLE:=telux-DataApp
-	DEPENDS:=+dsutils +libqmi-client-helper +qmi +qmi-framework +libtelux_common +libtelux_data  +libtelux_qmi +telux-public +libexecinfo
+	DEPENDS:=+libtelux_data +libexecinfo
 endef
 
 define Package/telux-LocationTestApp
