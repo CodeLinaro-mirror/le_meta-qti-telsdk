@@ -17,7 +17,7 @@ S = "${WORKDIR}/telux/public/samples/"
 
 EXTRA_OECMAKE += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '-DWITH_SYSTEMD:BOOL=ON', '', d)}"
 EXTRA_OECMAKE += "-DMACHINE_HAS_CV2X=OFF"
-EXTRA_OECMAKE += "-DTELSDK_FEATURE_LOC=ON"
+EXTRA_OECMAKE += "${@bb.utils.contains('MACHINE_FEATURES', 'qti-location', '-DTELSDK_FEATURE_LOC=ON', '', d)}"
 EXTRA_OECMAKE += "-DTELSDK_FEATURE_POWER=ON"
 
 #SYSTEMD_SERVICE_${PN} = "chrony-sock.service"
