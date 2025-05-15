@@ -24,7 +24,7 @@ define Package/telux-DataApp
 	SECTION:=telux-DataApp
 	CATEGORY:=QTI-PACKAGES
 	TITLE:=telux-DataApp
-	DEPENDS:=+dsutils +libqmi-client-helper +qmi +qmi-framework +libtelux_common +libtelux_data  +libtelux_qmi +telux-public +libexecinfo
+	DEPENDS:=+libtelux_data +libexecinfo
 endef
 
 define Package/telux-LocationTestApp
@@ -33,6 +33,20 @@ define Package/telux-LocationTestApp
 	TITLE:=telux-LocationTestApp
 	MAINTAINER:= Vthuniki
 	DEPENDS:=+libtelux_loc
+endef
+
+define Package/telux-SwUpdateConsoleApp
+	SECTION:=telux-SwUpdateConsoleApp
+	CATEGORY:=QTI-PACKAGES
+	TITLE:=telux-SwUpdateConsoleApp
+	DEPENDS:=+telux-public +libtelux_swupdate +libexecinfo
+endef
+
+define Package/telux-SwUpdateApp
+	SECTION:=telux-SwUpdateApp
+	CATEGORY:=QTI-PACKAGES
+	TITLE:=telux-SwUpdateApp
+	DEPENDS:=+telux-public +libtelux_swupdate +libexecinfo
 endef
 
 define Package/telsdk_console_app/Description
@@ -47,11 +61,20 @@ define Package/telux-LocationTestApp/Description
 	telux-LocationTestApp
 endef
 
+define Package/telux-SwUpdateConsoleApp/Description
+        TELUX-SwUpdateConsoleApp
+endef
+
+define Package/telux-SwUpdateApp/Description
+        TELUX-SwUpdateApp
+endef
+
 CMAKE_OPTIONS+= \
 	-DTELSDK_TEST_DATA:bool=TRUE \
 	-DTELSDK_FEATURE_DATA:bool=TRUE \
         -DBUILD_ALL_SAMPLES:bool=TRUE \
 	-DTELSDK_TEST_LOC:bool=TRUE \
+	-DTELSDK_FEATURE_SWUPDATE:bool=TRUE
 
 TARGET_CFLAGS += -Og \
 	-D__NEED_ino_t \
@@ -81,6 +104,18 @@ define Package/telux-LocationTestApp/install
 	$(CP) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/location_test_app $(1)/usr/bin/
 endef
 
+define Package/telux-SwUpdateConsoleApp/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/swupdate_console_app $(1)/usr/bin
+endef
+
+define Package/telux-SwUpdateApp/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/swupdate_app $(1)/usr/bin
+endef
+
 $(eval $(call BuildPackage,telsdk_console_app))
 $(eval $(call BuildPackage,telux-DataApp))
 $(eval $(call BuildPackage,telux-LocationTestApp))
+$(eval $(call BuildPackage,telux-SwUpdateConsoleApp))
+$(eval $(call BuildPackage,telux-SwUpdateApp))
