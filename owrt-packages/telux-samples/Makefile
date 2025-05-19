@@ -49,6 +49,18 @@ define Package/telux-SwUpdateApp
 	DEPENDS:=+telux-public +libtelux_swupdate +libexecinfo
 endef
 
+define Package/audio-ConsoleApp
+	SECTION:=telux
+	CATEGORY:=QTI-PACKAGES
+	TITLE:=audio-ConsoleApp
+	MAINTAINER:=QTI MM Audio
+	DEPENDS:=+libexecinfo
+endef
+
+define Package/audio-ConsoleApp/Description
+	AUDIO-CONSOLEAPP
+endef
+
 define Package/telsdk_console_app/Description
 	TELSDK_CONSOLE_APP
 endef
@@ -114,8 +126,16 @@ define Package/telux-SwUpdateApp/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/swupdate_app $(1)/usr/bin
 endef
 
+ifeq ($(PROFILE),"mbb")
+define Package/audio-ConsoleApp/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(CP) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/audio_console_app $(1)/usr/bin/
+endef
+endif
+
 $(eval $(call BuildPackage,telsdk_console_app))
 $(eval $(call BuildPackage,telux-DataApp))
 $(eval $(call BuildPackage,telux-LocationTestApp))
 $(eval $(call BuildPackage,telux-SwUpdateConsoleApp))
 $(eval $(call BuildPackage,telux-SwUpdateApp))
+$(eval $(call BuildPackage,audio-ConsoleApp))
