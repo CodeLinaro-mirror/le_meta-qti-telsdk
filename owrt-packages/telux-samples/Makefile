@@ -6,7 +6,7 @@ PKG_RELEASE:=1
 PKG_LICENSE:=BSD-3-Clause & BSD-3-Clause-Clear
 
 LOCAL_SRC:=$(TOPDIR)/src/telux/public/apps/
-PKG_BUILD_DIR:=$(BUILD_DIR)/telux-public-$(PKG_VERSION)/public/apps/
+PKG_BUILD_DIR:=$(BUILD_DIR)/telux-public-$(PKG_VERSION)/public/apps
 
 CMAKE_INSTALL:=1
 
@@ -61,6 +61,27 @@ define Package/audio-ConsoleApp/Description
 	AUDIO-CONSOLEAPP
 endef
 
+define Package/telux-cellular_connection_security_app
+	SECTION:=telux
+	CATEGORY:=QTI-PACKAGES
+	TITLE:=telux-cellular_connection_security_app
+	DEPENDS:=+libtelux_sec +libtelux_sec_con +libexecinfo
+endef
+
+define Package/telux-wifi_connection_security_app
+	SECTION:=telux
+	CATEGORY:=QTI-PACKAGES
+	TITLE:=telux-wifi_connection_security_app
+	DEPENDS:=+libtelux_sec +libtelux_sec_con +libexecinfo
+endef
+
+define Package/telux-crypto_console_app
+	SECTION:=telux
+	CATEGORY:=QTI-PACKAGES
+	TITLE:=telux-crypto_console_app
+	DEPENDS:=+libtelux_sec +libexecinfo
+endef
+
 define Package/telsdk_console_app/Description
 	TELSDK_CONSOLE_APP
 endef
@@ -79,6 +100,18 @@ endef
 
 define Package/telux-SwUpdateApp/Description
         TELUX-SwUpdateApp
+endef
+
+define Package/telux-cellular_connection_security_app/Description
+	TELUX-CELLULAR_CONNECTION_SECURITY_APP
+endef
+
+define Package/telux-wifi_connection_security_app/Description
+	TELUX-WIFI_CONNECTION_SECURITY_APP
+endef
+
+define Package/telux-crypto_console_app/Description
+	TELUX-CRYPTO_CONSOLE_APP
 endef
 
 CMAKE_OPTIONS+= \
@@ -133,9 +166,27 @@ define Package/audio-ConsoleApp/install
 endef
 endif
 
+define Package/telux-cellular_connection_security_app/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(CP) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/telux_cell_consec $(1)/usr/bin/
+endef
+
+define Package/telux-wifi_connection_security_app/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(CP) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/telux_wifi_consec $(1)/usr/bin/
+endef
+
+define Package/telux-crypto_console_app/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(CP) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/telux_crypto_console_app $(1)/usr/bin/
+endef
+
 $(eval $(call BuildPackage,telsdk_console_app))
 $(eval $(call BuildPackage,telux-DataApp))
 $(eval $(call BuildPackage,telux-LocationTestApp))
 $(eval $(call BuildPackage,telux-SwUpdateConsoleApp))
 $(eval $(call BuildPackage,telux-SwUpdateApp))
 $(eval $(call BuildPackage,audio-ConsoleApp))
+#$(eval $(call BuildPackage,telux-crypto_console_app))
+#$(eval $(call BuildPackage,telux-cellular_connection_security_app))
+#$(eval $(call BuildPackage,telux-wifi_connection_security_app))
