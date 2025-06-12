@@ -17,7 +17,7 @@ define Package/telsdk_console_app
 	SECTION:=telux
 	CATEGORY:=QTI-PACKAGES
 	TITLE:=telsdk_console_app
-	DEPENDS:=+libtelux_data +libexecinfo +telux-public
+	DEPENDS:=+libtelux_data +libexecinfo +telux-public +PACKAGE_libtelux_audio:libtelux_audio
 endef
 
 define Package/telux-DataApp
