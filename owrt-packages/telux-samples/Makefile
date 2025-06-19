@@ -6,7 +6,7 @@ PKG_RELEASE:=1
 PKG_LICENSE:=BSD-3-Clause & BSD-3-Clause-Clear
 
 LOCAL_SRC:=$(TOPDIR)/src/telux/public/apps/
-PKG_BUILD_DIR:=$(BUILD_DIR)/telux-public-$(PKG_VERSION)/public/apps/
+PKG_BUILD_DIR:=$(BUILD_DIR)/telux-public-$(PKG_VERSION)/public/apps
 
 CMAKE_INSTALL:=1
 
@@ -17,7 +17,7 @@ define Package/telsdk_console_app
 	SECTION:=telux
 	CATEGORY:=QTI-PACKAGES
 	TITLE:=telsdk_console_app
-	DEPENDS:=+libtelux_data +libexecinfo +telux-public
+	DEPENDS:=+libtelux_data +libexecinfo +telux-public +PACKAGE_libtelux_audio:libtelux_audio
 endef
 
 define Package/telux-DataApp
@@ -25,6 +25,13 @@ define Package/telux-DataApp
 	CATEGORY:=QTI-PACKAGES
 	TITLE:=telux-DataApp
 	DEPENDS:=+libtelux_data +libexecinfo
+endef
+
+define Package/wlan_test_app
+	SECTION:=telux
+	CATEGORY:=QTI-PACKAGES
+	TITLE:=wlan_test_app
+	DEPENDS:=+libtelux_common +libtelux_wlan +libtelux_qmi +libexecinfo +telux-public
 endef
 
 define Package/telux-LocationTestApp
@@ -49,6 +56,39 @@ define Package/telux-SwUpdateApp
 	DEPENDS:=+telux-public +libtelux_swupdate +libexecinfo
 endef
 
+define Package/audio-ConsoleApp
+	SECTION:=telux
+	CATEGORY:=QTI-PACKAGES
+	TITLE:=audio-ConsoleApp
+	MAINTAINER:=QTI MM Audio
+	DEPENDS:=+libexecinfo
+endef
+
+define Package/audio-ConsoleApp/Description
+	AUDIO-CONSOLEAPP
+endef
+
+define Package/telux-cellular_connection_security_app
+	SECTION:=telux
+	CATEGORY:=QTI-PACKAGES
+	TITLE:=telux-cellular_connection_security_app
+	DEPENDS:=+libtelux_sec +libtelux_sec_con +libexecinfo
+endef
+
+define Package/telux-wifi_connection_security_app
+	SECTION:=telux
+	CATEGORY:=QTI-PACKAGES
+	TITLE:=telux-wifi_connection_security_app
+	DEPENDS:=+libtelux_sec +libtelux_sec_con +libexecinfo
+endef
+
+define Package/telux-crypto_console_app
+	SECTION:=telux
+	CATEGORY:=QTI-PACKAGES
+	TITLE:=telux-crypto_console_app
+	DEPENDS:=+libtelux_sec +libexecinfo
+endef
+
 define Package/telsdk_console_app/Description
 	TELSDK_CONSOLE_APP
 endef
@@ -57,23 +97,40 @@ define Package/telux-DataApp/Description
 	TELUX-DataApp
 endef
 
+define Package/wlan_test_app/Description
+	WLAN_TEST_APP
+endef
+
 define Package/telux-LocationTestApp/Description
 	telux-LocationTestApp
 endef
 
 define Package/telux-SwUpdateConsoleApp/Description
-        TELUX-SwUpdateConsoleApp
+	TELUX-SwUpdateConsoleApp
 endef
 
 define Package/telux-SwUpdateApp/Description
-        TELUX-SwUpdateApp
+	TELUX-SwUpdateApp
+endef
+
+define Package/telux-cellular_connection_security_app/Description
+	TELUX-CELLULAR_CONNECTION_SECURITY_APP
+endef
+
+define Package/telux-wifi_connection_security_app/Description
+	TELUX-WIFI_CONNECTION_SECURITY_APP
+endef
+
+define Package/telux-crypto_console_app/Description
+	TELUX-CRYPTO_CONSOLE_APP
 endef
 
 CMAKE_OPTIONS+= \
 	-DTELSDK_TEST_DATA:bool=TRUE \
 	-DTELSDK_FEATURE_DATA:bool=TRUE \
-        -DBUILD_ALL_SAMPLES:bool=TRUE \
+	-DBUILD_ALL_SAMPLES:bool=TRUE \
 	-DTELSDK_TEST_LOC:bool=TRUE \
+	-DTELSDK_FEATURE_WIFI:bool=TRUE \
 	-DTELSDK_FEATURE_SWUPDATE:bool=TRUE
 
 TARGET_CFLAGS += -Og \
@@ -99,6 +156,11 @@ define Package/telux-DataApp/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/samples/data/data_app/data_app $(1)/usr/bin
 endef
 
+define Package/wlan_test_app/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(CP) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/wlan_test_app $(1)/usr/bin
+endef
+
 define Package/telux-LocationTestApp/install
 	$(INSTALL_DIR) $(1)/usr/bin
 	$(CP) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/location_test_app $(1)/usr/bin/
@@ -114,8 +176,35 @@ define Package/telux-SwUpdateApp/install
 	$(INSTALL_BIN) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/swupdate_app $(1)/usr/bin
 endef
 
+ifeq ($(PROFILE),"mbb")
+define Package/audio-ConsoleApp/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(CP) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/audio_console_app $(1)/usr/bin/
+endef
+endif
+
+define Package/telux-cellular_connection_security_app/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(CP) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/telux_cell_consec $(1)/usr/bin/
+endef
+
+define Package/telux-wifi_connection_security_app/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(CP) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/telux_wifi_consec $(1)/usr/bin/
+endef
+
+define Package/telux-crypto_console_app/install
+	$(INSTALL_DIR) $(1)/usr/bin
+	$(CP) $(PKG_BUILD_DIR)/ipkg-install/usr/bin/telux_crypto_console_app $(1)/usr/bin/
+endef
+
 $(eval $(call BuildPackage,telsdk_console_app))
 $(eval $(call BuildPackage,telux-DataApp))
+$(eval $(call BuildPackage,wlan_test_app))
 $(eval $(call BuildPackage,telux-LocationTestApp))
 $(eval $(call BuildPackage,telux-SwUpdateConsoleApp))
 $(eval $(call BuildPackage,telux-SwUpdateApp))
+$(eval $(call BuildPackage,audio-ConsoleApp))
+$(eval $(call BuildPackage,telux-crypto_console_app))
+#$(eval $(call BuildPackage,telux-cellular_connection_security_app))
+#$(eval $(call BuildPackage,telux-wifi_connection_security_app))
