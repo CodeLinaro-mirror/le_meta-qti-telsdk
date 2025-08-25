@@ -6,8 +6,8 @@ LICENSE = "Apache-2.0 & BSD-3-Clause-Clear"
 LIC_FILES_CHKSUM = "file://${COREBASE}/meta/files/common-licenses/\
 Apache-2.0;md5=89aea4e17d99a7cacdbeed46a0096b10"
 
-LIC_FILES_CHKSUM += "file://${COREBASE}/meta-qti-bsp/files/common-licenses/\
-BSD-3-Clause-Clear;md5=3771d4920bd6cdb8cbdf1e8344489ee0"
+LIC_FILES_CHKSUM += "file://${COREBASE}/meta/files/common-licenses/\
+BSD-3-Clause-Clear;md5=7a434440b651f4a472ca93716d01033a"
 
 DEPENDS += "glib-2.0 nanopb protobuf-native python3-protobuf-native python3-six-native qmi-framework"
 
