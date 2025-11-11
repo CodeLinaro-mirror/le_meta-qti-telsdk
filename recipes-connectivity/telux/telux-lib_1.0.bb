@@ -13,4 +13,4 @@ SRC_URI = "file://telux/public/bin/"
 S = "${WORKDIR}/telux/public/bin"
 
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/*.so"
+FILES:${PN} += "${libdir}/*.so"

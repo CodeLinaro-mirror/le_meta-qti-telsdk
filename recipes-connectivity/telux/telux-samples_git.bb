@@ -15,10 +15,11 @@ S = "${WORKDIR}/telux/public/samples/"
 EXTRA_OECMAKE += "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '-DWITH_SYSTEMD:BOOL=ON', '', d)}"
 EXTRA_OECMAKE += "-DMACHINE_HAS_CV2X=ON"
 
-SYSTEMD_SERVICE_${PN} = "chrony-sock.service"
+SYSTEMD_SERVICE:${PN} = "chrony-sock.service"
 
 SRCREV = "${AUTOREV}"
 
 DEPENDS += "telux telux-lib systemd"
 FILES_SOLIBSDEV = ""
-FILES_${PN} += "${libdir}/*.so"
+FILES:${PN} += "${libdir}/*.so"
+FILES:${PN} += "${systemd_system_unitdir}/*"

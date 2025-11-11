@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=550794465ba0ec53
 
 PACKAGE_ARCH ?= "${MACHINE_ARCH}"
 
-RDEPENDS_${PN} += "glib-2.0"
+RDEPENDS:${PN} += "glib-2.0"
 
 FILESPATH =+ "${WORKSPACE}:"
 SRC_URI = "file://telux/public/include/"
@@ -16,6 +16,6 @@ S = "${WORKDIR}/telux/public/include"
 
 SRCREV = "${AUTOREV}"
 
-ALLOW_EMPTY_${PN} = "1"
+ALLOW_EMPTY:${PN} = "1"
 PACKAGES = "${PN}"
-FILES_${PN} += "/usr/include/*"
+FILES:${PN} += "/usr/include/*"
