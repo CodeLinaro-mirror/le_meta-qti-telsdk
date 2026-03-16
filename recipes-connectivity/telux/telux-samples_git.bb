@@ -44,9 +44,7 @@ EXTRA_OECMAKE = " \
 
 do_install:append() {
     if ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'true', 'false', d)}; then
-        if ${@bb.utils.contains_any('MACHINE_FEATURES', 'qti-vm-guest qti-eap', 'false', 'true', d)}; then
-            install -m 0644 ${WORKDIR}/telux_power_refd.service -D ${D}${systemd_unitdir}/system/telux_power_refd.service
-        fi
+        install -m 0644 ${WORKDIR}/telux_power_refd.service -D ${D}${systemd_unitdir}/system/telux_power_refd.service
     fi
     if ${@bb.utils.contains_any('MACHINE_FEATURES', 'pps qti-location', 'true', 'false', d)}; then
         if ${@bb.utils.contains_any('MACHINE_FEATURES', 'qti-vm-guest qti-eap', 'false', 'true', d)}; then
