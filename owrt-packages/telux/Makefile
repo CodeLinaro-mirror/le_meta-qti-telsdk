@@ -26,12 +26,12 @@ endef
 
 ### Install headers into the SDK staging area (the ONLY correct place)
 define Build/InstallDev
-    # Create include directories in the staging destination
-    $(INSTALL_DIR) $(1)/usr/include/telux/
+	# Create include directories in the staging destination
+	$(INSTALL_DIR) $(1)/usr/include/telux/
 
-    # Copy public headers
-    $(CP) $(TELUX_PUBLIC)/include/telux/. \
-        $(1)/usr/include/telux/
+	# Copy public headers
+	$(CP) $(TELUX_PUBLIC)/include/telux/. \
+		$(1)/usr/include/telux/
 endef
 
 $(eval $(call BuildPackage,telux))

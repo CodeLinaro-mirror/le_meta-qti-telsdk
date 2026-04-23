@@ -51,8 +51,8 @@ CMAKE_OPTIONS += \
 ########################################
 
 define Build/Prepare
-    $(call Build/Prepare/Default)
-    $(CP) $(LOCAL_SRC)/* $(PKG_BUILD_DIR)/
+	$(call Build/Prepare/Default)
+	$(CP) $(LOCAL_SRC)/* $(PKG_BUILD_DIR)/
 endef
 
 ########################################
@@ -60,9 +60,9 @@ endef
 ########################################
 
 define Package/telux-samples/install
-    $(INSTALL_DIR) $(1)/usr/bin
-    # Install all test apps built by CMake
-    $(CP) $(PKG_INSTALL_DIR)/usr/bin/. $(1)/usr/bin/
+	$(INSTALL_DIR) $(1)/usr/bin
+	# Install all test apps built by CMake
+	$(CP) $(PKG_INSTALL_DIR)/usr/bin/. $(1)/usr/bin/
 endef
 
 ########################################
