@@ -28,6 +28,9 @@ ITS_GROUP:append = "${ITS_ADD_GROUP}"
 USERADD_PARAM_${PN} = "${@bb.utils.contains_any('MACHINE_FEATURES', ['qti-cv2x', 'qti-wwan-plus-cv2x'], \
                       "-G ${ITS_GROUP} -u 4024 -U ${ITSUSER}\", '', d)}"
 
+# Thermal features
+PACKAGECONFIG[thermalshutdown] = "-DTELSDK_THERMAL_SHUTDOWN=ON,-DTELSDK_THERMAL_SHUTDOWN=OFF"
+
 EXTRA_OECMAKE = " \
     -DASN1C_PATH=${WORKDIR}/telux/public/asn1c \
     ${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '-DWITH_SYSTEMD:BOOL=ON', '', d)} \
