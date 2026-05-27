@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/${LICENSE};md5=550794465ba0ec53
 
 SRC_URI = "file://telux/public/bin/"
 
-S = "${WORKDIR}/telux/public/bin"
+S = "${UNPACKDIR}/telux/public/bin"
 
 inherit pkgconfig cmake
 

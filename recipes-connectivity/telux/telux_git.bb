@@ -6,7 +6,7 @@ SRCREV = "${AUTOREV}"
 
 SRC_URI = "file://telux/public/include"
 
-S = "${WORKDIR}/telux/public/include"
+S = "${UNPACKDIR}/telux/public/include"
 
 inherit pkgconfig cmake
 
