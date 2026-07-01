@@ -4,10 +4,10 @@ QTITELSDK:=
 
 ###Add target specific packages
 ifeq ($(BOARD),sdx35)
-    QTITELSDK+= telux
-    QTITELSDK+= telux-samples
+	QTITELSDK+= telux
+	QTITELSDK+= telux-samples
 else ifeq ($(BOARD),sdx65)
-    QTITELSDK+=
+	QTITELSDK+=
 else ifeq ($(BOARD),sdx85)
-    QTITELSDK+=
+	QTITELSDK+=
 endif
