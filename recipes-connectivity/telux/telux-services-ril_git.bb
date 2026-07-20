@@ -13,13 +13,15 @@ DEPENDS += "glib-2.0 nanopb protobuf-native python3-protobuf-native python3-six-
 
 SRC_URI = "file://telux/services/ril"
 
-S = "${WORKDIR}/telux/services/ril"
+S = "${UNPACKDIR}/telux/services/ril"
 
 inherit pkgconfig cmake python3native systemd
 
-EXTRA_OECMAKE = " \
+EXTRA_OECMAKE += " \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-external-ap', '-DRIL_FOR_EXTERNAL_AP=ON', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-guest', '-DTELSDK_FEATURE_FOR_SECONDARY_VM=ON', '', d)} \
+    -DCMAKE_MODULE_PATH=${STAGING_DIR_HOST}${prefix}/lib/cmake/nanopb \
+    -DCMAKE_POLICY_VERSION_MINIMUM=3.5 \
 "
 
 FILESPATH =+ "${WORKSPACE}:"
