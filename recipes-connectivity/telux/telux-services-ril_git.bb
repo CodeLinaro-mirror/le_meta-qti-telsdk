@@ -10,6 +10,7 @@ LIC_FILES_CHKSUM += "file://${COREBASE}/meta-qti-bsp/files/common-licenses/\
 BSD-3-Clause-Clear;md5=3771d4920bd6cdb8cbdf1e8344489ee0"
 
 DEPENDS += "glib-2.0 nanopb protobuf-native python3-protobuf-native python3-six-native qmi-framework"
+DEPENDS += " ${@bb.utils.contains('MACHINE_FEATURES', 'commonlog', 'commonlog-lib', '', d)} "
 
 SRC_URI = "file://telux/services/ril"
 
@@ -20,6 +21,7 @@ inherit pkgconfig cmake python3native systemd
 EXTRA_OECMAKE = " \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-external-ap', '-DRIL_FOR_EXTERNAL_AP=ON', '', d)} \
     ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-guest', '-DTELSDK_FEATURE_FOR_SECONDARY_VM=ON', '', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'commonlog', '-DTELSDK_FEATURE_COMMONLOG_SUPPORT=ON', '', d)} \
 "
 
 FILESPATH =+ "${WORKSPACE}:"

@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/BSD-3-Clause;md5=550794465ba0ec
 DEPENDS += "telux telux-lib telux-prop-noship systemd curl canwrapper json-c mvm-dlkm"
 DEPENDS += " ${@bb.utils.contains_any('MACHINE_FEATURES', [ 'qti-cv2x', 'qti-wwan-plus-cv2x' ], 'aerolink aerolink-headers v2x-lib', '', d)} "
 DEPENDS += " ${@bb.utils.contains('MACHINE_FEATURES', 'qti-vm-guest', '', 'dlt-daemon', d)} "
+DEPENDS += " ${@bb.utils.contains('MACHINE_FEATURES', 'commonlog', 'commonlog-lib', '', d)} "
 
 
 SRC_URI = "\
@@ -40,6 +41,7 @@ EXTRA_OECMAKE = " \
     ${@bb.utils.contains_any('MACHINE_FEATURES', [ 'qti-cv2x', 'qti-wwan-plus-cv2x' ], '-DWITH_AEROLINK=ON', '', d)} \
     ${@bb.utils.contains_any('MACHINE_FEATURES', ['qti-location','pps'], '-DWITH_LOCATION=ON', '', d)} \
     ${@bb.utils.contains_any('MACHINE_FEATURES', ['qti-vm-host','qti-vm-guest'], '', '-DTELSDK_FEATURE_FOR_PVM_ONLY=ON', d)} \
+    ${@bb.utils.contains('MACHINE_FEATURES', 'commonlog', '-DTELSDK_FEATURE_COMMONLOG_SUPPORT=ON', '', d)} \
 "
 
 do_install:append() {
